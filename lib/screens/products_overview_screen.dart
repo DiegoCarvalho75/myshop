@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/products.dart';
-import '../widgets/produuct_item.dart';
+import '../widgets/product_item.dart';
 
 class ProductsOverviewScreen extends StatelessWidget {
   ProductsOverviewScreen({Key key}) : super(key: key);
@@ -52,7 +52,7 @@ class ProductsOverviewScreen extends StatelessWidget {
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           childAspectRatio: 3 / 2,
-          crossAxisSpacing: 10,
+          crossAxisSpacing: 5,
           mainAxisSpacing: 10,
         ),
         itemCount: loadedProducts.length,
