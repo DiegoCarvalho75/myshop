@@ -15,7 +15,40 @@ class ProductDetailScreen extends StatelessWidget {
           loadedProduct.title,
         ),
       ),
-      body: Container(),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: 300,
+              width: double.infinity,
+              child: Image.network(
+                loadedProduct.imageUrl,
+                fit: BoxFit.cover,
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              '\$${loadedProduct.price}',
+              style: TextStyle(
+                color: Colors.black87,
+                fontSize: 20,
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              '${loadedProduct.description}',
+              style: TextStyle(
+                color: Colors.black87,
+                fontSize: 20,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
