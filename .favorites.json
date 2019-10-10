@@ -10,11 +10,11 @@
     },
     {
         "type": "File",
-        "name": "c:\\Users\\Diego\\OneDrive\\VS_Code\\ADB.bat",
+        "name": "c:\\Users\\Diego\\Documents\\Flutter\\myshop\\Testes\\adb_commands.bash",
         "parent_id": null,
-        "fsPath": "c:\\Users\\Diego\\OneDrive\\VS_Code\\ADB.bat",
+        "fsPath": "c:\\Users\\Diego\\Documents\\Flutter\\myshop\\Testes\\adb_commands.bash",
         "workspaceRoot": null,
         "workspacePath": null,
-        "id": "chi9T8odb5amlB7P"
+        "id": "r97DXuH2il3ApLMk"
     }
 ]

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_complete_guide/screens/cart_screen.dart';
 import 'package:provider/provider.dart';
 
+import '../screens/cart_screen.dart';
+
+import '../widgets/app_drawer.dart';
 import '../widgets/products_grid.dart';
 import '../widgets/badge.dart';
+
 import '../provider/cart.dart';
 
 enum filterOptions {
@@ -42,11 +45,11 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
             ),
             itemBuilder: (_) => [
               PopupMenuItem(
-                child: Text('Show All'),
+                child: Text('Mostrar Todos'),
                 value: filterOptions.All,
               ),
               PopupMenuItem(
-                child: Text('Only Favorites'),
+                child: Text('Apenas Favoritos'),
                 value: filterOptions.Favorites,
               ),
             ],
@@ -69,6 +72,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
           )
         ],
       ),
+      drawer: AppDrawer(),
       body: ProductsGrid(_showOnlyFavorites),
     );
   }

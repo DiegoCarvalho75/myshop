@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../screens/product_detail_screen.dart';
 import '../provider/products.dart';
 import '../provider/cart.dart';
@@ -53,6 +54,18 @@ class ProductItem extends StatelessWidget {
                 product.id,
                 product.price,
                 product.title,
+              );
+              Scaffold.of(context).hideCurrentSnackBar();
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Adicionado ao seu carrinho.'),
+                  action: SnackBarAction(
+                    label: 'DESFAZER',
+                    onPressed: () {
+                      cart.removeSingleItem(product.id);
+                    },
+                  ),
+                ),
               );
             },
           ),
