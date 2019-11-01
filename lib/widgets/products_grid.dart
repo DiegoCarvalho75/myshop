@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/product_item.dart';
-import '../provider/products_provider.dart';
+import '../provider/products.dart';
 
 class ProductsGrid extends StatelessWidget {
   final bool _showOnlyFavorites;

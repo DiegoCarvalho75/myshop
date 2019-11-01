@@ -5,7 +5,7 @@ import './screens/cart_screen.dart';
 import './screens/products_overview_screen.dart';
 import './screens/product_detail_screen.dart';
 import './provider/cart.dart';
-import './provider/products_provider.dart';
+import './provider/products.dart';
 import './provider/orders.dart';
 import './screens/orders_screen.dart';
 import './screens/user_products_screen.dart';
@@ -31,9 +31,18 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Loja',
         theme: ThemeData(
-          primarySwatch: Colors.purple,
-          accentColor: Colors.deepOrange,
-          canvasColor: Colors.purple[100],
+          primarySwatch: Colors.cyan,
+          accentColor: Colors.amberAccent,
+          canvasColor: Colors.amber[100],
+          inputDecorationTheme: InputDecorationTheme(
+            labelStyle: TextStyle(height: 2, fontSize: 14),
+            alignLabelWithHint: true,
+            contentPadding: EdgeInsets.all(10.0),
+            border: new OutlineInputBorder(
+              borderRadius: new BorderRadius.circular(24.0),
+              borderSide: new BorderSide(),
+            ),
+          ),
         ),
         home: ProductsOverviewScreen(),
         routes: {
