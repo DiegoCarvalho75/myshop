@@ -29,15 +29,13 @@ class Badge extends StatelessWidget {
               color: color != null ? color : Theme.of(context).accentColor,
             ),
             constraints: BoxConstraints(
-              minWidth: 20,
-              minHeight: 20,
+              minWidth: 15,
+              minHeight: 15,
             ),
             child: Text(
               value,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 12,
-              ),
+              style: TextStyle(fontSize: 12, color: Colors.white),
             ),
           ),
         )

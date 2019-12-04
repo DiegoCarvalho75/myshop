@@ -3,12 +3,14 @@ import 'package:provider/provider.dart';
 
 import '../screens/product_detail_screen.dart';
 import '../provider/product.dart';
+import '../provider/products.dart';
 import '../provider/cart.dart';
 
 class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context);
+    final products = Provider.of<Products>(context);
     final cart = Provider.of<Cart>(context, listen: false);
 
     return ClipRRect(
@@ -36,7 +38,7 @@ class ProductItem extends StatelessWidget {
               color: Theme.of(context).accentColor,
             ),
             onPressed: () {
-              product.toggleFavorite();
+              products.updateFav(product.id);
             },
           ),
           title: Text(
@@ -50,15 +52,13 @@ class ProductItem extends StatelessWidget {
               color: Theme.of(context).accentColor,
             ),
             onPressed: () {
-              cart.addItem(
-                product.id,
-                product.price,
-                product.title,
-              );
+              cart.addItem(product.id, product.price, product.title);
               Scaffold.of(context).hideCurrentSnackBar();
               Scaffold.of(context).showSnackBar(
                 SnackBar(
                   content: Text('Adicionado ao seu carrinho.'),
+                  duration: Duration(seconds: 1),
+                  key: key,
                   action: SnackBarAction(
                     label: 'DESFAZER',
                     onPressed: () {

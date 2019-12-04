@@ -53,17 +53,18 @@ class _OrderItemState extends State<OrderItem> {
                       Text('${widget.order.products[index].price} '),
                       Text(' x ${widget.order.products[index].quantity}'),
                       Container(
-                          padding: EdgeInsets.all(5.0),
-                          width: 70,
-                          child: Text(
-                            '${(widget.order.products[index].quantity * widget.order.products[index].price).toStringAsFixed(2)}',
-                            textAlign: TextAlign.right,
-                          )),
+                        padding: EdgeInsets.all(5.0),
+                        width: 70,
+                        child: Text(
+                          '${(widget.order.products[index].quantity * widget.order.products[index].price).toStringAsFixed(2)}',
+                          textAlign: TextAlign.right,
+                        ),
+                      ),
                     ],
                   );
                 },
               ),
-            )
+            ),
         ],
       ),
     );

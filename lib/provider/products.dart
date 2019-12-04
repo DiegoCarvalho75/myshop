@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import '../models/http_exception.dart';
 import 'package:http/http.dart' as http;
 import './product.dart';
 
@@ -132,8 +133,49 @@ class Products with ChangeNotifier {
     }
   }
 
-  void deleteProduct(String id) {
-    _items.removeWhere((prod) => prod.id == id);
+  ///[ Optimistic Update ]
+  Future<void> updateFav(String id) async {
+    final prodIndex = _items.indexWhere((prod) => prod.id == id);
+
+    if (prodIndex >= 0) {
+      _items[prodIndex].isFavorite = !_items[prodIndex].isFavorite;
+      notifyListeners();
+      final url = 'https://curso-dad78.firebaseio.com/products/$id.json';
+      await http
+          .patch(url,
+              body: json.encode({
+                'isFavorite': _items[prodIndex].isFavorite,
+              }))
+          .then((response) {
+        if (response.statusCode >= 400) {
+          _items[prodIndex].isFavorite = !_items[prodIndex].isFavorite;
+          throw HttpException(
+              'Status Code ${response.statusCode} Erro ao atualizar favoritos.');
+        }
+        // print(response.body);
+      }).catchError((e) {
+        print(e);
+      });
+      notifyListeners();
+    }
+  }
+
+  Future<void> deleteProduct(String id) async {
+    final url = 'https://curso-dad78.firebaseio.com/products/$id.json';
+    final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
+    var existingProduct = _items[existingProductIndex];
+    _items.removeAt(existingProductIndex);
     notifyListeners();
+    await http.delete(url).then((response) {
+      if (response.statusCode >= 400) {
+        // print(response.status Code);
+        throw HttpException('Erro ao deletar produto.');
+      }
+      existingProduct = null;
+    }).catchError((onError) {
+      _items.insert(existingProductIndex, existingProduct);
+      notifyListeners();
+      throw HttpException('Erro ao deletar produto.');
+    });
   }
 }
