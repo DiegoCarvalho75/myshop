@@ -10,7 +10,13 @@ class Teste extends StatefulWidget {
 }
 
 class _TesteState extends State<Teste> {
-  var isPressed = false;
+  bool isPressed = false;
+
+  void pan(bool pressed) {
+    setState(() {
+      isPressed = pressed;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,16 +24,8 @@ class _TesteState extends State<Teste> {
 
     return Scaffold(
       body: GestureDetector(
-        onPanStart: (_) {
-          setState(() {
-            isPressed = true;
-          });
-        },
-        onPanEnd: (_) {
-          setState(() {
-            isPressed = false;
-          });
-        },
+        onPanStart: (_) => pan(true),
+        onPanEnd: (_) => pan(false),
         child: Container(
           margin: EdgeInsets.all(62.0),
           padding: EdgeInsets.all(12.0),
@@ -66,9 +64,9 @@ class _TesteState extends State<Teste> {
             ),
             boxShadow: [
               BoxShadow(
-                blurRadius: 8,
-                color: Colors.black,
-                offset: isPressed ? Offset(15, 15) : Offset(20, 20),
+                blurRadius: isPressed ? 2 : 5,
+                color: Colors.black87,
+                offset: isPressed ? Offset(10, 10) : Offset(15, 15),
               )
             ],
           ),

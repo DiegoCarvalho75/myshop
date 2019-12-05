@@ -12,7 +12,7 @@ import './screens/orders_screen.dart';
 import './screens/user_products_screen.dart';
 import './screens/auth-screen.dart';
 import './screens/edit_product_screen.dart';
-import './teste/teste.dart';
+import './teste/teste2.dart';
 
 void main() => runApp(MyApp());
 
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.cyan,
           accentColor: Colors.amberAccent,
-          canvasColor: HexColor("#2635c5"),
+          // canvasColor: HexColor("#2635c5"),
           textTheme: Theme.of(context).textTheme.copyWith(
                 body1: new TextStyle(
                   color: Colors.black,
@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        home: Teste(), //AuthScreen()
+        home: Teste2(), //AuthScreen()
         routes: {
           ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
           CartScreen.routeName: (ctx) => CartScreen(),
