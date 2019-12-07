@@ -11,7 +11,7 @@ class VeryFloatingButton extends StatefulWidget {
   final Color textColor;
   final Color textColorPressed;
   final Color color;
-  final dynamic function;
+  final Function function;
   final Color shadowColor;
 
   const VeryFloatingButton({
@@ -21,13 +21,13 @@ class VeryFloatingButton extends StatefulWidget {
     this.width = 100.0,
     this.height = 100.0,
     this.elevation = 8,
-    this.text = 'Botão',
+    this.text = '',
     this.textSize = 18,
     this.textColor = Colors.white,
     this.textColorPressed = Colors.orange,
     this.color = Colors.teal,
-    this.function = null,
-    this.shadowColor = Colors.purple,
+    this.function,
+    this.shadowColor = Colors.black87,
   }) : super(key: key);
 
   @override
@@ -58,6 +58,11 @@ class _VeryFloatingButtonState extends State<VeryFloatingButton> {
         child: Container(
           margin: EdgeInsets.all(12.0),
           decoration: BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage(
+                  'https://cdn.pixabay.com/photo/2019/12/01/00/39/haflinger-4664537_960_720.jpg'),
+              fit: BoxFit.none,
+            ),
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(3),
               topRight: Radius.circular(6),

@@ -25,28 +25,62 @@ class _VeryFloatingButtonScreenState extends State<VeryFloatingButtonScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        // mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          Expanded(
-            child: Stack(
-              children: <Widget>[
-                VeryFloatingButton(
-                  left: 0.0,
-                  top: 100,
-                  shadowColor: HexColor('#0816dd'),
-                ),
-                VeryFloatingButton(
-                  function: buttonFunction2,
-                  text: 'Ok!!!',
-                  left: 120.0,
-                  top: 100,
-                  shadowColor: HexColor('#070b45'),
-                ),
-              ],
+      body: Container(
+        width: MediaQuery.of(context).size.width - 10,
+        height: MediaQuery.of(context).size.height - 10,
+        color: Colors.red,
+        child: ListView(
+          children: <Widget>[
+            Container(
+              width: 200,
+              height: 400,
+              child: Stack(
+                children: <Widget>[
+                  VeryFloatingButton(
+                    function: buttonFunction2,
+                    left: 0.0,
+                    top: 100,
+                    width: 220,
+                    height: 300,
+                    shadowColor: HexColor('#070b45'),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+            Container(
+              width: 200,
+              height: 400,
+              child: Stack(
+                children: <Widget>[
+                  VeryFloatingButton(
+                    function: buttonFunction2,
+                    left: 0.0,
+                    top: 100,
+                    width: 220,
+                    height: 300,
+                    shadowColor: HexColor('#070b45'),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: 200,
+              height: 400,
+              child: Stack(
+                children: <Widget>[
+                  VeryFloatingButton(
+                    function: buttonFunction2,
+                    left: 0.0,
+                    top: 100,
+                    width: 220,
+                    height: 300,
+                    shadowColor: HexColor('#070b45'),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
