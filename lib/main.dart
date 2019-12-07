@@ -12,7 +12,7 @@ import './screens/orders_screen.dart';
 import './screens/user_products_screen.dart';
 import './screens/auth-screen.dart';
 import './screens/edit_product_screen.dart';
-import './teste/teste2.dart';
+import './teste/veryFloatingButtonScreen.dart';
 
 void main() => runApp(MyApp());
 
@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        home: Teste2(), //AuthScreen()
+        home: VeryFloatingButtonScreen(), //AuthScreen()
         routes: {
           ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
           CartScreen.routeName: (ctx) => CartScreen(),
