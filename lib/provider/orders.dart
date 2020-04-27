@@ -29,26 +29,32 @@ class Orders with ChangeNotifier {
     final response = await http.get(url);
     final List<OrderItem> loadedOrders = [];
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
+
     if (extractedData == null) {
       print("No orders!!!");
       return;
     }
-    extractedData.forEach((orderId, orderData) {
-      loadedOrders.add(OrderItem(
-        id: orderId,
-        amount: orderData['amount'],
-        dateTime: DateTime.parse(orderData['dateTime']),
-        products: (orderData['products'] as List<dynamic>)
-            .map((item) => CartItem(
-                id: item['id'],
-                title: item['title'],
-                price: item['price'],
-                quantity: item['quantity']))
-            .toList(),
-      ));
-    });
-    _orders = loadedOrders;
-    notifyListeners();
+
+    try {
+      extractedData.forEach((orderId, orderData) {
+        loadedOrders.add(OrderItem(
+          id: orderId,
+          amount: orderData['amount'],
+          dateTime: DateTime.parse(orderData['dateTime']),
+          products: (orderData['products'] as List<dynamic>)
+              .map((item) => CartItem(
+                  id: item['id'],
+                  title: item['title'],
+                  price: item['price'],
+                  quantity: item['quantity']))
+              .toList(),
+        ));
+      });
+      _orders = loadedOrders;
+      notifyListeners();
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<void> addOrder(List<CartItem> cartProducts, double total) async {
@@ -81,7 +87,7 @@ class Orders with ChangeNotifier {
       );
       notifyListeners();
     } catch (e) {
-      print(e);
+      print('e');
     }
   }
 }

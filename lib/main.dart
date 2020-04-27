@@ -12,7 +12,7 @@ import './screens/orders_screen.dart';
 import './screens/user_products_screen.dart';
 import './screens/auth-screen.dart';
 import './screens/edit_product_screen.dart';
-import './teste/veryFloatingButtonScreen.dart';
+import './screens/products_overview_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -23,8 +23,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(
           value: Auth(),
         ),
-        ChangeNotifierProvider.value(
-          value: Products(),
+        ChangeNotifierProxyProvider<Auth, Products>(
+          create: (_) => Products(null, []),
+          update: (_, auth, prevProducts) => Products(
+            auth.token,
+            prevProducts.items,
+          ),
         ),
         ChangeNotifierProvider.value(
           value: Cart(),
@@ -33,47 +37,48 @@ class MyApp extends StatelessWidget {
           value: Orders(),
         ),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Loja',
-        theme: ThemeData(
-          primarySwatch: Colors.cyan,
-          accentColor: Colors.amberAccent,
-          // canvasColor: HexColor("#2635c5"),
-          textTheme: Theme.of(context).textTheme.copyWith(
-                body1: new TextStyle(
-                  color: Colors.black,
+      child: Consumer<Auth>(
+        builder: (ctx, auth, _) => MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Loja',
+          theme: ThemeData(
+            primarySwatch: Colors.cyan,
+            accentColor: Colors.amberAccent,
+            // canvasColor: HexColor("#2635c5"),
+            textTheme: Theme.of(context).textTheme.copyWith(
+                  body1: new TextStyle(
+                    color: Colors.black,
+                  ),
+                  display1: new TextStyle(
+                    color: HexColor('#D1C4E9'),
+                  ),
+                  display4: new TextStyle(
+                    color: HexColor('#78909b'),
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
-                display1: new TextStyle(
-                  color: HexColor('#78909C'),
-                ),
-                display4: new TextStyle(
-                  color: HexColor('#78909b'),
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-          primaryTextTheme: Theme.of(context).primaryTextTheme.copyWith(
-                  button: TextStyle(
-                color: HexColor('#7E57C2'),
-              )),
-          inputDecorationTheme: InputDecorationTheme(
-            labelStyle: TextStyle(height: 2, fontSize: 14),
-            alignLabelWithHint: true,
-            contentPadding: EdgeInsets.all(10.0),
-            border: new OutlineInputBorder(
-              borderRadius: new BorderRadius.circular(24.0),
-              borderSide: new BorderSide(),
+            primaryTextTheme: Theme.of(context).primaryTextTheme.copyWith(
+                    button: TextStyle(
+                  color: HexColor('#ffffff'),
+                )),
+            inputDecorationTheme: InputDecorationTheme(
+              labelStyle: TextStyle(height: 2, fontSize: 18),
+              alignLabelWithHint: true,
+              contentPadding: EdgeInsets.all(15.0),
+              border: new OutlineInputBorder(
+                  borderRadius: new BorderRadius.circular(24.0),
+                  borderSide: new BorderSide()),
             ),
           ),
+          home: auth.isAuth ? ProductsOverviewScreen() : AuthScreen(),
+          routes: {
+            ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
+            CartScreen.routeName: (ctx) => CartScreen(),
+            OrdersScreen.routeName: (ctx) => OrdersScreen(),
+            UserProductsScreen.routeName: (ctx) => UserProductsScreen(),
+            EditProductScreen.routeName: (ctx) => EditProductScreen(),
+          },
         ),
-        home: VeryFloatingButtonScreen(), //AuthScreen()
-        routes: {
-          ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
-          CartScreen.routeName: (ctx) => CartScreen(),
-          OrdersScreen.routeName: (ctx) => OrdersScreen(),
-          UserProductsScreen.routeName: (ctx) => UserProductsScreen(),
-          EditProductScreen.routeName: (ctx) => EditProductScreen(),
-        },
       ),
     );
   }

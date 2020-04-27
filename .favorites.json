@@ -1,20 +1,29 @@
 [
     {
         "type": "File",
-        "name": "c:\\Users\\Diego\\.bash_history",
+        "name": "c:\\Users\\Diego\\OneDrive\\VS_Code\\Scripts\\Memu_connect.ps1",
         "parent_id": null,
-        "fsPath": "c:\\Users\\Diego\\.bash_history",
+        "fsPath": "c:\\Users\\Diego\\OneDrive\\VS_Code\\Scripts\\Memu_connect.ps1",
         "workspaceRoot": null,
         "workspacePath": null,
-        "id": "P9QDH8YTiwECBxrb"
+        "id": "DdYaofANS4P73QGi"
     },
     {
         "type": "File",
-        "name": "c:\\Users\\Diego\\Documents\\Flutter\\myshop\\Testes\\teste.bash",
+        "name": "c:\\Users\\Diego\\OneDrive\\scripts\\vscode.css",
         "parent_id": null,
-        "fsPath": "c:\\Users\\Diego\\Documents\\Flutter\\myshop\\Testes\\teste.bash",
+        "fsPath": "c:\\Users\\Diego\\OneDrive\\scripts\\vscode.css",
         "workspaceRoot": null,
         "workspacePath": null,
-        "id": "goNci4SKyxUt1wW2"
+        "id": "Mq5rGAlpuDfIUEjX"
+    },
+    {
+        "type": "File",
+        "name": "c:\\Users\\Diego\\OneDrive\\scripts\\script_vscode.js",
+        "parent_id": null,
+        "fsPath": "c:\\Users\\Diego\\OneDrive\\scripts\\script_vscode.js",
+        "workspaceRoot": null,
+        "workspacePath": null,
+        "id": "I2ohapFJzxy64New"
     }
 ]

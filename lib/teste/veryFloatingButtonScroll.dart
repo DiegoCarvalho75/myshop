@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class VeryFloatingButton extends StatefulWidget {
+class VeryFloatingButtonScroll extends StatefulWidget {
   final double left;
   final double top;
   final double width;
@@ -14,7 +14,7 @@ class VeryFloatingButton extends StatefulWidget {
   final Function function;
   final Color shadowColor;
 
-  const VeryFloatingButton({
+  const VeryFloatingButtonScroll({
     Key key,
     this.left = 0.0,
     this.top = 0.0,
@@ -31,10 +31,11 @@ class VeryFloatingButton extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _VeryFloatingButtonState createState() => _VeryFloatingButtonState();
+  _VeryFloatingButtonScrollState createState() =>
+      _VeryFloatingButtonScrollState();
 }
 
-class _VeryFloatingButtonState extends State<VeryFloatingButton> {
+class _VeryFloatingButtonScrollState extends State<VeryFloatingButtonScroll> {
   bool isPressed = false;
 
   void pan(bool onOFf) {
@@ -47,15 +48,12 @@ class _VeryFloatingButtonState extends State<VeryFloatingButton> {
   Widget build(BuildContext context) {
     return Positioned(
       child: GestureDetector(
-        onPanStart: (value) {
-          pan(true);
-          if (widget.function != null) {
-            widget.function(value);
-          } else
-            print('nulo');
-        },
-        onPanDown: (_) => pan(true),
-        onPanEnd: (_) => pan(false),
+        onVerticalDragStart: (value) 
+         {
+           print(value);
+           pan(true);
+           
+           },
         child: Container(
           margin: EdgeInsets.all(12.0),
           decoration: BoxDecoration(

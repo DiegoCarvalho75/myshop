@@ -10,13 +10,11 @@ enum AuthMode { Signup, Login }
 
 class AuthScreen extends StatelessWidget {
   static const routeName = '/auth';
-  static const routeName2 = '/auth2';
 
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
-    // final transformConfig = Matrix4.rotationZ(-8 * pi / 180);
-    // transformConfig.translate(-10.0);
+
     return Scaffold(
       // resizeToAvoidBottomInset: false,
       body: Stack(
@@ -25,8 +23,8 @@ class AuthScreen extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color.fromRGBO(215, 117, 255, 1).withOpacity(0.5),
-                  Color.fromRGBO(255, 188, 117, 1).withOpacity(0.9),
+                  const Color.fromRGBO(215, 117, 255, 1).withOpacity(0.5),
+                  const Color.fromRGBO(255, 188, 117, 1).withOpacity(0.9),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -152,8 +150,9 @@ class _AuthCardState extends State<AuthCard> {
           _authData['password'],
         );
       }
+      print('Logado');
     } on HttpException catch (error) {
-      // print(error);
+      print(error);
       if (error.toString().contains('EMAIL_NOT_FOUND')) {
         _errorMsg = 'Email não emcontrado.';
       } else if (error.toString().contains('INVALID_PASSWORD')) {
@@ -167,12 +166,16 @@ class _AuthCardState extends State<AuthCard> {
       } else
         _errorMsg = 'Falha';
     } catch (e) {
+      print(e);
       _errorMsg = 'Não pôde autenticar.';
     }
     // print(_errorMsg);
-    _showErrorDialog(_errorMsg, widget.key);
+    if (!_errorMsg.isEmpty) {
+      _showErrorDialog(_errorMsg, widget.key);
+    }
+
     setState(() {
-      // _errorMsg = "";
+      _errorMsg = "";
       _isLoading = false;
     });
   }

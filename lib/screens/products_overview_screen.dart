@@ -48,13 +48,10 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // print(MediaQuery.of(context).size.width);
-    // print(MediaQuery.of(context).size.height);
-
     // final productsContainer = Provider.of<Products>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Loja'),
+        title: const Text('Loja'),
         actions: <Widget>[
           PopupMenuButton(
             onSelected: (selectedValue) {
@@ -66,17 +63,17 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                 }
               });
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.favorite_border,
               size: 35,
             ),
             itemBuilder: (_) => [
               PopupMenuItem(
-                child: Text('Mostrar Todos'),
+                child: const Text('Mostrar Todos'),
                 value: filterOptions.All,
               ),
               PopupMenuItem(
-                child: Text('Apenas Favoritos'),
+                child: const Text('Apenas Favoritos'),
                 value: filterOptions.Favorites,
               ),
             ],
@@ -86,9 +83,9 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
             child: Consumer<Cart>(
               builder: (_, cart, __) => Badge(
                 color: Colors.red[800],
-                child: IconButton(
+                child: const IconButton(
                   onPressed: null,
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.shopping_cart,
                     size: 35,
                     color: Colors.white,
