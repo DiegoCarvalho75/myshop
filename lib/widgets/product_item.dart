@@ -5,6 +5,7 @@ import '../screens/product_detail_screen.dart';
 import '../provider/product.dart';
 import '../provider/products.dart';
 import '../provider/cart.dart';
+import '../provider/auth.dart';
 
 class ProductItem extends StatelessWidget {
   @override
@@ -12,6 +13,7 @@ class ProductItem extends StatelessWidget {
     final product = Provider.of<Product>(context);
     final products = Provider.of<Products>(context);
     final cart = Provider.of<Cart>(context, listen: false);
+    final authData = Provider.of<Auth>(context, listen: false);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(15),
@@ -38,7 +40,7 @@ class ProductItem extends StatelessWidget {
               color: Theme.of(context).accentColor,
             ),
             onPressed: () {
-              products.updateFav(product.id);
+              products.updateFav(product.id, authData.userId);
             },
           ),
           title: Text(

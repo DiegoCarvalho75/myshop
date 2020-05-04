@@ -26,11 +26,14 @@ class OrdersScreen extends StatelessWidget {
             if (dataSnapshot.error != null) {
               return Center(child: Text('Error'));
             } else {
+              print(dataSnapshot.data);
               return Consumer<Orders>(
                 builder: (ctx, orderData, child) => ListView.builder(
                   itemCount: orderData.orders.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return oi.OrderItem(orderData.orders[index]);
+                    child:
+                    Text('teste');
+                    // return oi.OrderItem(orderData.orders[index]);
                   },
                 ),
               );

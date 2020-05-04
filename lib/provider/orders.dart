@@ -1,6 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import '../models/http_exception.dart';
 
 import './cart.dart';
 
@@ -24,11 +25,18 @@ class Orders with ChangeNotifier {
     return [..._orders];
   }
 
+  final String authToken;
+
+  Orders(this.authToken);
+
   Future<void> fetchAndSetOrders() async {
-    const url = 'https://curso-dad78.firebaseio.com/orders.json';
+    final url =
+        'https://curso-dad78.firebaseio.com/orders.json?auth=$authToken';
     final response = await http.get(url);
     final List<OrderItem> loadedOrders = [];
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
+    // print(response.body);
+    // print(extractedData);
 
     if (extractedData == null) {
       print("No orders!!!");
@@ -51,14 +59,18 @@ class Orders with ChangeNotifier {
         ));
       });
       _orders = loadedOrders;
+
+      // print('Fetched!!! ${_orders.length}');
       notifyListeners();
     } catch (e) {
+      print('FAIL to Fetch!!!');
       print(e);
     }
   }
 
   Future<void> addOrder(List<CartItem> cartProducts, double total) async {
-    const url = 'https://curso-dad78.firebaseio.com/orders.json';
+    final url =
+        'https://curso-dad78.firebaseio.com/orders.json?auth=$authToken';
     final timestamp = DateTime.now();
     try {
       final response = await http.post(
@@ -76,6 +88,9 @@ class Orders with ChangeNotifier {
               .toList(),
         }),
       );
+      if (response.statusCode >= 400) {
+        throw HttpException(jsonDecode(response.body)['error']);
+      }
       _orders.insert(
         0,
         OrderItem(
@@ -85,9 +100,11 @@ class Orders with ChangeNotifier {
           products: cartProducts,
         ),
       );
+
       notifyListeners();
     } catch (e) {
-      print('e');
+      print('Fail to Add Order!!!');
+      print(e);
     }
   }
 }

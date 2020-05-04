@@ -1,15 +1,22 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import '../models/http_exception.dart';
 import 'package:http/http.dart' as http;
+
+import '../models/http_exception.dart';
 import './product.dart';
 
 class Products with ChangeNotifier {
   List<Product> _items = [];
 
   final String authToken;
+  final String userId;
 
-  Products(this.authToken, this._items);
+  Products(
+    this._items,
+    this.authToken,
+    this.userId,
+  );
 
   List<Product> get items {
     /// equivale [_items.toList()]
@@ -24,32 +31,34 @@ class Products with ChangeNotifier {
     return _items.firstWhere((prod) => prod.id == id);
   }
 
-  // void showFavoritesOnly() {
-  //   _showFavoritesOnly = true;
-  //   notifyListeners();
-  // }
-
-  // void showAll() {
-  //   _showFavoritesOnly = false;
-  //   notifyListeners();
-  // }
-
   Future<void> fetchAndSetProducts() async {
-    final url =
+    var url =
         'https://curso-dad78.firebaseio.com/products.json?auth=$authToken';
     try {
       final response = await http.get(url);
       final extratedData = json.decode(response.body) as Map<String, dynamic>;
+      if (extratedData == null) {
+        return;
+      }
       // print(extratedData);
+      url =
+          'https://curso-dad78.firebaseio.com/userFavorites/$userId.json?auth=$authToken';
+      final favoriteResponse = await http.get(url);
+      final favoriteData = json.decode(favoriteResponse.body);
       final List<Product> loadedProducts = [];
       extratedData.forEach((prodId, prodData) {
-        loadedProducts.add(Product(
-            id: prodId,
-            title: prodData['title'],
-            description: prodData['description'],
-            price: prodData['price'],
-            imageUrl: prodData['imageUrl'],
-            isFavorite: prodData['isFavorite']));
+        // print(favoriteData[prodId]);
+        loadedProducts.add(
+          Product(
+              id: prodId,
+              title: prodData['title'],
+              description: prodData['description'],
+              price: prodData['price'],
+              imageUrl: prodData['imageUrl'],
+              isFavorite:
+                  favoriteData == null ? false : favoriteData[prodId] ?? false),
+          // favoriteData['-M5z7GHV55YYy6I3Xkol'] == null || true || false?
+        );
       });
       _items = loadedProducts;
       notifyListeners();
@@ -59,7 +68,8 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) async {
-    const url = 'https://curso-dad78.firebaseio.com/products.json';
+    final url =
+        'https://curso-dad78.firebaseio.com/products.json?auth=$authToken';
     try {
       final response = await http.post(
         url,
@@ -68,9 +78,15 @@ class Products with ChangeNotifier {
           'description': product.description,
           'imageUrl': product.imageUrl,
           'price': product.price,
-          'isFavorite': product.isFavorite,
         }),
       );
+
+      if (response.statusCode >= 400) {
+        // print(response.statusCode);
+        throw HttpException(
+            'Status Code ${response.statusCode} Erro ao inserir produto.');
+      }
+
       final newProduct = Product(
         title: product.title,
         description: product.description,
@@ -90,7 +106,8 @@ class Products with ChangeNotifier {
     final prodIndex = _items.indexWhere((prod) => prod.id == id);
 
     if (prodIndex >= 0) {
-      final url = 'https://curso-dad78.firebaseio.com/products/$id.json';
+      final url =
+          'https://curso-dad78.firebaseio.com/products/$id.json?auth=$authToken';
       await http.patch(url,
           body: json.encode({
             'title': product.title,
@@ -104,19 +121,23 @@ class Products with ChangeNotifier {
   }
 
   ///[ Optimistic Update ]
-  Future<void> updateFav(String id) async {
-    final prodIndex = _items.indexWhere((prod) => prod.id == id);
+  Future<void> updateFav(String productId, String userId) async {
+    final prodIndex = _items.indexWhere((prod) => prod.id == productId);
 
     if (prodIndex >= 0) {
       _items[prodIndex].isFavorite = !_items[prodIndex].isFavorite;
       notifyListeners();
-      final url = 'https://curso-dad78.firebaseio.com/products/$id.json';
+      final url =
+          'https://curso-dad78.firebaseio.com/userFavorites/$userId/$productId.json?auth=$authToken';
       await http
-          .patch(url,
-              body: json.encode({
-                'isFavorite': _items[prodIndex].isFavorite,
-              }))
+          .put(
+        url,
+        body: json.encode(
+          _items[prodIndex].isFavorite,
+        ),
+      )
           .then((response) {
+        // print(response);
         if (response.statusCode >= 400) {
           _items[prodIndex].isFavorite = !_items[prodIndex].isFavorite;
           throw HttpException(
@@ -131,7 +152,8 @@ class Products with ChangeNotifier {
   }
 
   Future<void> deleteProduct(String id) async {
-    final url = 'https://curso-dad78.firebaseio.com/products/$id.json';
+    final url =
+        'https://curso-dad78.firebaseio.com/products/$id.json?auth=$authToken';
     final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
     var existingProduct = _items[existingProductIndex];
     _items.removeAt(existingProductIndex);
