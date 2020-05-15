@@ -1,8 +1,9 @@
 import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import '../models/http_exception.dart';
 
+import '../models/http_exception.dart';
 import './cart.dart';
 
 class OrderItem {
@@ -26,12 +27,17 @@ class Orders with ChangeNotifier {
   }
 
   final String authToken;
+  final String userId;
 
-  Orders(this.authToken);
+  Orders(
+    this._orders,
+    this.authToken,
+    this.userId,
+  );
 
   Future<void> fetchAndSetOrders() async {
     final url =
-        'https://curso-dad78.firebaseio.com/orders.json?auth=$authToken';
+        'https://curso-dad78.firebaseio.com/orders/$userId.json?auth=$authToken';
     final response = await http.get(url);
     final List<OrderItem> loadedOrders = [];
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
@@ -59,8 +65,7 @@ class Orders with ChangeNotifier {
         ));
       });
       _orders = loadedOrders;
-
-      // print('Fetched!!! ${_orders.length}');
+      print('Fetched!!! ${_orders.length} order(s)');
       notifyListeners();
     } catch (e) {
       print('FAIL to Fetch!!!');
@@ -70,7 +75,7 @@ class Orders with ChangeNotifier {
 
   Future<void> addOrder(List<CartItem> cartProducts, double total) async {
     final url =
-        'https://curso-dad78.firebaseio.com/orders.json?auth=$authToken';
+        'https://curso-dad78.firebaseio.com/orders/$userId.json?auth=$authToken';
     final timestamp = DateTime.now();
     try {
       final response = await http.post(

@@ -35,16 +35,18 @@ class MyApp extends StatelessWidget {
           create: (_) => Cart(),
         ),
         ChangeNotifierProxyProvider<Auth, Orders>(
-          create: (_) => Orders(null),
+          create: (_) => Orders([], null, null),
           update: (_, auth, prevOrders) => Orders(
+            prevOrders.orders,
             auth.token,
+            auth.userId,
           ),
         ),
       ],
       child: Consumer<Auth>(
         builder: (ctx, auth, _) => MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Loja',
+          title: 'Lojinha',
           theme: ThemeData(
             primarySwatch: Colors.cyan,
             accentColor: Colors.amberAccent,

@@ -1,20 +1,25 @@
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
-import '../models/http_exception.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'dart:convert';
+import 'dart:async';
+
+import '../models/http_exception.dart';
 
 class Auth with ChangeNotifier {
   String _token;
-  DateTime _expireDate;
+  DateTime _expiryDate;
   String _userId;
+  Timer _authTimer;
 
   bool get isAuth {
     return _token != null;
   }
 
   String get token {
-    if (_expireDate != null &&
-        _expireDate.isAfter(DateTime.now()) &&
+    if (_expiryDate != null &&
+        _expiryDate.isAfter(DateTime.now()) &&
         _token != null) {
       return _token;
     }
@@ -42,15 +47,21 @@ class Auth with ChangeNotifier {
         print(responseData['error']);
         throw HttpException(responseData['error']['message']);
       }
-
       _token = responseData['idToken'];
       _userId = responseData['localId'];
-      _expireDate = DateTime.now().add(
+      _expiryDate = DateTime.now().add(
         Duration(
           seconds: int.parse(responseData['expiresIn']),
         ),
       );
+      _autoLogout();
       notifyListeners();
+      final userData = jsonEncode({
+        'token': _token,
+        'userId': _userId,
+        'experyDate': _expiryDate,
+      });
+      final prefs = await SharedPreferences.getInstance();
     } catch (e) {
       print(e);
       throw e;
@@ -64,8 +75,23 @@ class Auth with ChangeNotifier {
   Future<void> login(String email, String password) async {
     return _authenticate(email, password, 'signInWithPassword');
   }
-}
 
-//  'https://www.googleapis.com/identitytoolkit/v3/relyingparty/$urlSegment?key=xxx';
-//  return _authenticate(email, password, 'signupNewUser');
-//  return _authenticate(email, password, 'verifyPassword');
+  void logout() {
+    _userId = null;
+    _token = null;
+    _expiryDate = null;
+    if (_authTimer != null) {
+      _authTimer.cancel();
+      _authTimer = null;
+    }
+    notifyListeners();
+  }
+
+  void _autoLogout() {
+    if (_authTimer != null) {
+      _authTimer.cancel();
+    }
+    final timeToExpire = _expiryDate.difference(DateTime.now()).inSeconds;
+    _authTimer = Timer(Duration(seconds: timeToExpire), logout);
+  }
+}

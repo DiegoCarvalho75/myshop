@@ -25,5 +25,23 @@
         "workspaceRoot": null,
         "workspacePath": null,
         "id": "I2ohapFJzxy64New"
+    },
+    {
+        "type": "File",
+        "name": "c:\\Users\\Diego\\OneDrive\\VS_Code\\Scripts\\dart_syntaxes.ps1",
+        "parent_id": null,
+        "fsPath": "c:\\Users\\Diego\\OneDrive\\VS_Code\\Scripts\\dart_syntaxes.ps1",
+        "workspaceRoot": null,
+        "workspacePath": null,
+        "id": "JEwAdIUGhaNL2F43"
+    },
+    {
+        "type": "File",
+        "name": "c:\\Users\\Diego\\OneDrive\\VS_Code\\Scripts\\Geral.ps1",
+        "parent_id": null,
+        "fsPath": "c:\\Users\\Diego\\OneDrive\\VS_Code\\Scripts\\Geral.ps1",
+        "workspaceRoot": null,
+        "workspacePath": null,
+        "id": "t8fl36M2Wm74DYpN"
     }
 ]

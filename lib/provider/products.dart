@@ -31,16 +31,18 @@ class Products with ChangeNotifier {
     return _items.firstWhere((prod) => prod.id == id);
   }
 
-  Future<void> fetchAndSetProducts() async {
+  Future<void> fetchAndSetProducts([bool filterByUser = false]) async {
+    final filterString =
+        filterByUser ? 'orderBy="creatorId"&equalTo="$userId"' : '';
     var url =
-        'https://curso-dad78.firebaseio.com/products.json?auth=$authToken';
+        'https://curso-dad78.firebaseio.com/products.json?auth=$authToken&$filterString';
     try {
       final response = await http.get(url);
       final extratedData = json.decode(response.body) as Map<String, dynamic>;
       if (extratedData == null) {
         return;
       }
-      // print(extratedData);
+      print(response.statusCode);
       url =
           'https://curso-dad78.firebaseio.com/userFavorites/$userId.json?auth=$authToken';
       final favoriteResponse = await http.get(url);
@@ -63,6 +65,7 @@ class Products with ChangeNotifier {
       _items = loadedProducts;
       notifyListeners();
     } catch (e) {
+      print(e);
       throw (e);
     }
   }
@@ -78,6 +81,7 @@ class Products with ChangeNotifier {
           'description': product.description,
           'imageUrl': product.imageUrl,
           'price': product.price,
+          'creatorId': userId,
         }),
       );
 
