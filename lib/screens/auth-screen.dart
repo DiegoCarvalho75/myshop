@@ -1,12 +1,16 @@
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/http_exception.dart';
 import '../provider/auth.dart';
 
-enum AuthMode { Signup, Login }
+enum AuthMode {
+  Signup,
+  Login,
+}
 
 class AuthScreen extends StatelessWidget {
   static const routeName = '/auth';
@@ -166,7 +170,7 @@ class _AuthCardState extends State<AuthCard> {
       } else
         _errorMsg = 'Falha';
     } catch (e) {
-      print(e);
+      print('teste$e');
       _errorMsg = 'Não pôde autenticar.';
     }
     // print(_errorMsg);

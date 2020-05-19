@@ -13,6 +13,7 @@ import './screens/user_products_screen.dart';
 import './screens/auth-screen.dart';
 import './screens/edit_product_screen.dart';
 import './screens/products_overview_screen.dart';
+import './screens/splash_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.cyan,
             accentColor: Colors.amberAccent,
             // canvasColor: HexColor("#2635c5"),
+
             textTheme: Theme.of(context).textTheme.copyWith(
                   body1: new TextStyle(
                     color: Colors.black,
@@ -76,7 +78,16 @@ class MyApp extends StatelessWidget {
                   borderSide: new BorderSide()),
             ),
           ),
-          home: auth.isAuth ? ProductsOverviewScreen() : AuthScreen(),
+          home: auth.isAuth
+              ? ProductsOverviewScreen()
+              : FutureBuilder(
+                  future: auth.tryAutoLogin(),
+                  builder: (ctx, authReturnSnapshot) =>
+                      authReturnSnapshot.connectionState ==
+                              ConnectionState.waiting
+                          ? SplashScreen()
+                          : AuthScreen(),
+                ),
           routes: {
             ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
             CartScreen.routeName: (ctx) => CartScreen(),
