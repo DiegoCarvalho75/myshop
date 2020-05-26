@@ -66,7 +66,6 @@ class UserProductsScreen extends StatelessWidget {
               ),
             );
           }
-          ;
         },
       ),
     );

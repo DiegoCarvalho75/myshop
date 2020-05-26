@@ -51,8 +51,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.cyan,
             accentColor: Colors.amberAccent,
-            // canvasColor: HexColor("#2635c5"),
-
+            // canvasColor: Color.fromARGB(100, 209, 196, 233),
             textTheme: Theme.of(context).textTheme.copyWith(
                   body1: new TextStyle(
                     color: Colors.black,
