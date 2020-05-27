@@ -6,6 +6,8 @@ import '../provider/auth.dart';
 import '../screens/orders_screen.dart';
 import '../screens/user_products_screen.dart';
 
+import '../helpers/custom_route.dart';
+
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key key}) : super(key: key);
 
@@ -28,8 +30,14 @@ class AppDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.payment),
             title: Text('Pedidos'),
-            onTap: () => Navigator.of(context)
-                .pushReplacementNamed(OrdersScreen.routeName),
+            onTap: () =>
+                // Navigator.of(context).pushReplacement(
+                //       CustomRoute(
+                //         builder: (ctx) => OrdersScreen(),
+                //       ),
+                //     )
+                Navigator.of(context)
+                    .pushReplacementNamed(OrdersScreen.routeName),
           ),
           Divider(),
           ListTile(

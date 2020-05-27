@@ -15,17 +15,18 @@ class OrderItem extends StatefulWidget {
 
 class _OrderItemState extends State<OrderItem> {
   var expanded = false;
+  double _containerHeight = 0;
 
   @override
   Widget build(BuildContext context) {
-    print(context);
+    double _atualHeight = widget.order.products.length * 10.0 + 100;
     return Card(
       margin: EdgeInsets.all(8.0),
       child: Column(
         children: <Widget>[
           ListTile(
             title: Text(
-              '\$${widget.order.amount}',
+              '\$${widget.order.amount.toStringAsFixed(2)}',
             ),
             subtitle: Text(
               DateFormat('dd.MM.yyyy hh:mm').format(widget.order.dateTime),
@@ -35,37 +36,55 @@ class _OrderItemState extends State<OrderItem> {
               onPressed: () {
                 setState(() {
                   expanded = !expanded;
+                  if (_containerHeight == 0)
+                    _containerHeight = _atualHeight;
+                  else
+                    _containerHeight = 0;
                 });
               },
             ),
           ),
-          if (expanded)
-            Container(
-              padding: EdgeInsets.all(8.0),
-              height: min(widget.order.products.length * 10.0 + 100, 180),
-              child: ListView.builder(
-                itemCount: widget.order.products.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text('${widget.order.products[index].title}'),
-                      Spacer(),
-                      Text('${widget.order.products[index].price} '),
-                      Text(' x ${widget.order.products[index].quantity}'),
-                      Container(
+          AnimatedContainer(
+            duration: Duration(milliseconds: 500),
+            padding: EdgeInsets.all(8.0),
+            height: _containerHeight,
+            child: ListView.builder(
+              itemCount: widget.order.products.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Expanded(
+                        flex: 3,
+                        child: Text('${widget.order.products[index].title}')),
+                    // Spacer(),
+                    Expanded(
+                      child: Text(
+                        '${widget.order.products[index].price.toStringAsFixed(2)} ',
+                        maxLines: 1,
+                        overflow: TextOverflow.fade,
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                    Expanded(
+                        child: Text(
+                            ' x ${widget.order.products[index].quantity}')),
+                    Expanded(
+                      flex: 2,
+                      child: Container(
                         padding: EdgeInsets.all(5.0),
-                        width: 70,
                         child: Text(
                           '${(widget.order.products[index].quantity * widget.order.products[index].price).toStringAsFixed(2)}',
                           textAlign: TextAlign.right,
+                          softWrap: false,
                         ),
                       ),
-                    ],
-                  );
-                },
-              ),
+                    ),
+                  ],
+                );
+              },
             ),
+          ),
         ],
       ),
     );
